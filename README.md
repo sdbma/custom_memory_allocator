@@ -14,6 +14,9 @@ To mitigate the disadvantages of general-purpose allocators, custom memory alloc
 
 A pool allocator splits the big memory chunk in smaller chunks of the **same size**. It uses a **stack** to keep track of free and used blocks. When an allocation is requested, it returns the next free chunk and removes it from the stack, and when a free is done, it push the free block into the stack.
 
+
+
+
 License
 ----
 
