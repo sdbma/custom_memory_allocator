@@ -15,7 +15,22 @@ To mitigate the disadvantages of general-purpose allocators, custom memory alloc
 A pool allocator splits the big memory chunk in smaller chunks of the **same size**. It uses a **stack** to keep track of free and used blocks. When an allocation is requested, it returns the next free chunk and removes it from the stack, and when a free is done, it push the free block into the stack.
 
 
+### Pool Allocator in Action
 
+As described above, a contiguous array is kept aside for maintenance of the pools of equal chunks. Only two stack operations **push()** and **pop()** is required for book-keeping and these operations are implemented using an **chunkIndex** variable. Whenever an allocation is required pop() operation is imitated by reserving the address at current chunkIndex for allocation, and then incrementing the chunkIndex to point to next available address in the array. Similary, whenever a free is done push() operation is imitated by decrementing the chunk Index, and then storing the free address in the new chunk Index. This free address is now available for next requested allocation.
+
+* The book-keeping array looks like the following before any allocation or free operation is done.
+  <img src="https://user-images.githubusercontent.com/4752422/120123798-042d0a00-c17f-11eb-8393-9b3be04e36c4.png" alt="drawing" width="600" height="200"/>
+* After the first allocation is done, the book-keeping array looks like following:
+  <img src="https://user-images.githubusercontent.com/4752422/120123876-6554dd80-c17f-11eb-9db7-701c001cddb5.png" alt="drawing" width="600" height="200"/>
+* After second allocation is done, the book-keeping array looks like the following:                                                                                            
+  <img src="https://user-images.githubusercontent.com/4752422/120123910-9503e580-c17f-11eb-80c9-fc752de0e8e0.png" alt="drawing" width="600" height="200"/>
+* After several allocation is done but no deallocation is done, the book-keeping array may look like following:                                                                  
+  <img src="https://user-images.githubusercontent.com/4752422/120123958-ca103800-c17f-11eb-976e-455a99bb9cf7.png" alt="drawing" width="600" height="200"/>
+* After first deallocation is requested using address **a2**, the address **a2** is **pushed** to the stack, the book-keeping array may look like the following:                     
+  <img src="https://user-images.githubusercontent.com/4752422/120124000-faf06d00-c17f-11eb-8121-1cd0cc4528e7.png" alt="drawing" width="600" height="200"/>
+* After several deallocation is requested with mixed addresses being **pushed**, the book-keeping array may look like the following:
+<img src="https://user-images.githubusercontent.com/4752422/120124042-2a9f7500-c180-11eb-8694-4b242bc21811.png" alt="drawing" width="600" height="200"/>
 
 License
 ----
