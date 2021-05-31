@@ -29,12 +29,32 @@ As described above, a contiguous array is kept aside for maintenance of the pool
   <img src="https://user-images.githubusercontent.com/4752422/120123876-6554dd80-c17f-11eb-9db7-701c001cddb5.png" alt="drawing" width="600" height="200"/>
 * After second allocation is done, the book-keeping array looks like the following:                                                                                            
   <img src="https://user-images.githubusercontent.com/4752422/120123910-9503e580-c17f-11eb-80c9-fc752de0e8e0.png" alt="drawing" width="600" height="200"/>
-* After several allocation is done but no deallocation is done, the book-keeping array may look like following:                                                                  
+* After several allocation is done but no deallocation is done, the book-keeping array may look like following:
   <img src="https://user-images.githubusercontent.com/4752422/120123958-ca103800-c17f-11eb-976e-455a99bb9cf7.png" alt="drawing" width="600" height="200"/>
 * After first deallocation is requested using address **a2**, the address **a2** is **pushed** to the stack, the book-keeping array may look like the following:                     
   <img src="https://user-images.githubusercontent.com/4752422/120124000-faf06d00-c17f-11eb-8121-1cd0cc4528e7.png" alt="drawing" width="600" height="200"/>
 * After several deallocation is requested with mixed addresses being **pushed**, the book-keeping array may look like the following:
-<img src="https://user-images.githubusercontent.com/4752422/120124042-2a9f7500-c180-11eb-8694-4b242bc21811.png" alt="drawing" width="600" height="200"/>
+  <img src="https://user-images.githubusercontent.com/4752422/120124042-2a9f7500-c180-11eb-8694-4b242bc21811.png" alt="drawing" width="600" height="200"/>
+
+## Free List Allocator
+The free list allocator allows allocation of any size of chunks - an advantage over pool allocator. For this reason, it requires different data structures like a linked list or a red black tree. Hence, its performances will not be as good as the pool allocator. The data structure needed to maintain is kept as header of each block in the same memory pool.
+
+### Linked list data structure
+In this implementation, a pointer is kept to keep track of the head of the linked list. When an allocation is requested, it searches in the linked list for a block where the requested size of data can fit. Before sending the data to caller, we put some information to header of the chunk about the size of chunk and put a new header on the next free available slot with available block size. We also keep track of next available free chunk through a next pointer kept in the header. During deallocation, we get back the address from the caller, we read the allocation header to know the size of the block that we are going to push back to linked list. We traverse the linked list to put the free node back between prior free node and next free node. If the free block is contigous to other free blocks , we also merge those blocks to create bigger blocks.
+
+### Linked list allocation in action
+
+* The memory pool of 4M looks like the following before any allocation or free operation is done.
+  <img src="https://user-images.githubusercontent.com/4752422/120128177-6988f700-c18f-11eb-87ac-0643afa33bab.png" alt="drawing" width="800" height="200"/>
+* After the first allocation of 4K memory is done, the memory pool looks like following:
+  <img src="https://user-images.githubusercontent.com/4752422/120128546-427ef500-c190-11eb-81cf-f28db9d002dd.png" alt="drawing" width="800" height="200"/>
+* After second allocation of 2K is done, the memory pool looks like the following:                          
+  <img src="https://user-images.githubusercontent.com/4752422/120128957-1a43c600-c191-11eb-8a48-bca6640ad519.png" alt="drawing" width="800" height="200"/>
+* After first memory of 4K is deallocated, the memory pool may look like the following:                     
+  <img src="https://user-images.githubusercontent.com/4752422/120129233-96d6a480-c191-11eb-8511-d211a55646ae.png" alt="drawing" width="800" height="200"/>
+* After several allocation and deallocation are requested, the memory pool may look like the following:
+  <img src="https://user-images.githubusercontent.com/4752422/120129763-8f63cb00-c192-11eb-82a8-155d5b7b3e72.png" alt="drawing" width="800" height="200"/>
+
 
 License
 ----
