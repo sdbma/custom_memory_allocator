@@ -45,16 +45,15 @@ In this implementation, a pointer is kept to keep track of the head of the linke
 ### Linked list allocation in action
 
 * The memory pool of 4M looks like the following before any allocation or free operation is done.
-  <img src="https://user-images.githubusercontent.com/4752422/120128177-6988f700-c18f-11eb-87ac-0643afa33bab.png" alt="drawing" width="800" height="200"/>
-* After the first allocation of 4K memory is done, the memory pool looks like following:
-  <img src="https://user-images.githubusercontent.com/4752422/120128546-427ef500-c190-11eb-81cf-f28db9d002dd.png" alt="drawing" width="800" height="200"/>
-* After second allocation of 2K is done, the memory pool looks like the following:                          
-  <img src="https://user-images.githubusercontent.com/4752422/120128957-1a43c600-c191-11eb-8a48-bca6640ad519.png" alt="drawing" width="800" height="200"/>
-* After first memory of 4K is deallocated, the memory pool may look like the following:                     
-  <img src="https://user-images.githubusercontent.com/4752422/120129233-96d6a480-c191-11eb-8511-d211a55646ae.png" alt="drawing" width="800" height="200"/>
+  <img src="https://user-images.githubusercontent.com/4752422/120130040-35afd080-c193-11eb-8fef-ff73102c8c73.png" alt="drawing" width="800" height="200"/>
+* After the first allocation of 128K memory is done, the memory pool looks like following:
+  <img src="https://user-images.githubusercontent.com/4752422/120130669-bc18e200-c194-11eb-9081-b726b0c94443.png" alt="drawing" width="800" height="200"/>
+* After second allocation of 256K is done, the memory pool looks like the following:                          
+  <img src="https://user-images.githubusercontent.com/4752422/120130713-d9e64700-c194-11eb-844a-bda9e16bb351.png" alt="drawing" width="800" height="200"/>
+* After first memory of 128K is deallocated, the memory pool may look like the following:                     
+  <img src="https://user-images.githubusercontent.com/4752422/120130735-ea96bd00-c194-11eb-90e7-69fbf491fc7f.png" alt="drawing" width="800" height="200"/>
 * After several allocation and deallocation are requested, the memory pool may look like the following:
-  <img src="https://user-images.githubusercontent.com/4752422/120129763-8f63cb00-c192-11eb-82a8-155d5b7b3e72.png" alt="drawing" width="800" height="200"/>
-
+  <img src="https://user-images.githubusercontent.com/4752422/120129840-c3d78700-c192-11eb-83d6-fa806a6849c2.png" alt="drawing" width="800" height="200"/>
 
 License
 ----
