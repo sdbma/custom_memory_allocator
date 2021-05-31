@@ -42,6 +42,8 @@ The free list allocator allows allocation of any size of chunks - an advantage o
 ### Linked list data structure
 In this implementation, a pointer is kept to keep track of the head of the linked list. When an allocation is requested, it searches in the linked list for a block where the requested size of data can fit. Before sending the data to caller, we put some information to header of the chunk about the size of chunk and put a new header on the next free available slot with available block size. We also keep track of next available free chunk through a next pointer kept in the header. During deallocation, we get back the address from the caller, we read the allocation header to know the size of the block that we are going to push back to linked list. We traverse the linked list to put the free node back between prior free node and next free node. If the free block is contigous to other free blocks , we also merge those blocks to create bigger blocks.
 
+The source code has both find-first and find-best policy implementation.
+
 ### Linked list allocation in action
 
 * The memory pool of 4M looks like the following before any allocation or free operation is done.
@@ -54,6 +56,21 @@ In this implementation, a pointer is kept to keep track of the head of the linke
   <img src="https://user-images.githubusercontent.com/4752422/120130735-ea96bd00-c194-11eb-90e7-69fbf491fc7f.png" alt="drawing" width="800" height="200"/>
 * After several allocation and deallocation are requested, the memory pool may look like the following:
   <img src="https://user-images.githubusercontent.com/4752422/120129840-c3d78700-c192-11eb-83d6-fa806a6849c2.png" alt="drawing" width="800" height="200"/>
+
+## Build/Test Instructions
+In order to build and test the C++ code in the repository, please do the following:
+```
+$ make
+$ bin/test
+```
+
+## Summary
+If your data requires fixed-size bytes all of same size, then pool allocator is the best choice. It is faster than general purpose allocator as well as free list allocator. It also has no fragmentation - external or internal.
+
+Free-list allocator is useful if your data has no predefined structure. This allows you to allocate and free any fixed-size bytes but still provides faster speed than malloc. It may suffer from fragmentation.
+
+
+Please contact [Shomit Dutta](mailto:shomitdutta@gmail.com) for follow-up questions. 
 
 License
 ----
