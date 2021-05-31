@@ -14,6 +14,10 @@ To mitigate the disadvantages of general-purpose allocators, custom memory alloc
 
 A pool allocator splits the big memory chunk in smaller chunks of the **same size**. It uses a **stack** to keep track of free and used blocks. When an allocation is requested, it returns the next free chunk and removes it from the stack, and when a free is done, it push the free block into the stack.
 
+To implement the book-keeping stack, we use contiguous array and allocated the size required for the array from the same memory along with the big memory chunk requested for pool allocation.
+
+<img src="https://user-images.githubusercontent.com/4752422/120124849-3a20bd00-c184-11eb-9c0d-4cff01d6cfed.png" alt="drawing" width="600" height="200"/>
+
 
 ### Pool Allocator in Action
 
